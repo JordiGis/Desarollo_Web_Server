@@ -6,15 +6,7 @@ for ($i=0; $i < strlen(PALABRA); $i++) {
 }
 $mensaje = [];
 
-function ponerLetra($letra, &$letras) {
-    for ($i=0; $i < strlen(PALABRA); $i++) { 
-        if (substr(PALABRA,$i,1) == $letra) {
-            $letras[$i] = $letra;
-            return true;
-        }
-    }
-    return false;
-}
+require_once 'funciones.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
