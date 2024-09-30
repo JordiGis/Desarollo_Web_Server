@@ -1,8 +1,14 @@
 <?php  
+session_start();
 const PALABRA = "saludar";
 $letras = [];
 for ($i=0; $i < strlen(PALABRA); $i++) { 
     $letras[] = "_";
+}
+if (isset($_SESSION['letras'])) {
+    $letras = explode(',',htmlspecialchars($_SESSION['letras']));
+}else{
+    $_SESSION['letras'] = implode(',',$letras);
 }
 $mensaje = [];
 
@@ -10,9 +16,6 @@ require_once 'funciones.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (isset($_POST['letras'])) {
-        $letras = explode(',',htmlspecialchars($_POST['letras']));
-    }
 
     if (isset($_POST['letra']) && $_POST['letra'] != "") {
         $letra = strtolower(htmlspecialchars($_POST['letra']));
@@ -24,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (implode('',$letras) == PALABRA) {
         $mensaje[] =  ["correct" => "Has ganado"];
     }
+    $_SESSION['letras'] = implode(',',$letras);
 
 }
 ?>
@@ -53,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="letra">Introduce una letra:</label>
         <input type="text" name="letra" id="letra" maxlength="1" minlength="1" autocomplete="off" autofocus required>
         <input type="submit" value="Enviar">
-        <input hidden type="text" name="letras" value="<?= implode(',',$letras)  ?>">
     </form>
     <?php
     foreach ($mensaje as $value) {
