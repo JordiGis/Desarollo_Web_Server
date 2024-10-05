@@ -5,6 +5,7 @@ $letras = [];
 for ($i=0; $i < strlen(PALABRA); $i++) { 
     $letras[] = "_";
 }
+session_start();
 if (isset($_SESSION['letras'])) {
     $letras = explode(',',htmlspecialchars($_SESSION['letras']));
 }else{
