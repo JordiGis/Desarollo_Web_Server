@@ -1,5 +1,10 @@
 <?php  
-
+function inicarVariables() {
+    return ["letras" => inicarArray(), "letrasUsadas" => [], "intentos" => INTENTOS_MAXIMOS];
+}
+function inicarArray() {
+    return array_fill(0, strlen(PALABRA), "_");;
+}
 
 function ponerLetra($letra, &$letras) {
     $encontrada = false;

@@ -4,23 +4,37 @@ const FILAS = 6;
 
 require_once 'funciones.php';
 
+// jugador por defecto
+$jugador = "player1";
 $tabla = iniciarTabla();
+session_start();
+if (isset($_SESSION['tabla'])) {
+    $tabla = json_decode($_SESSION['tabla']);
+}else{
+    $_SESSION['tabla'] = json_encode($tabla);
+}
+
+if (isset($_SESSION['jugador'])) {
+    $jugador = $_SESSION['jugador'];
+}else{
+    $_SESSION['jugador'] = $jugador;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (isset($_POST['tabla'])) {
-        $tabla = json_decode($_POST['tabla']);
-    }
-
-    if (isset($_POST['columna']) && $_POST['columna'] != "" && isset($_POST['personaje'])) {
+    if (isset($_POST['columna']) && $_POST['columna'] != "") {
         $columna = htmlspecialchars($_POST['columna']);
         if ($columna < 0 || $columna >= COLUMNAS) {
             echo "Columna no valida";
         }
 
-        if (!movimiento($tabla, $columna, htmlspecialchars($_POST['personaje']))) {
+        if (!movimiento($tabla, $columna, $jugador)) {
             echo "Columna llena";
+        }else{
+            cambiarJugador($jugador);
         }
+        $_SESSION['jugador'] = $jugador;
+        $_SESSION['tabla'] = json_encode($tabla);
     }
 }
 ?>
