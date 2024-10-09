@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
     $_SESSION['ahorcado'] = json_encode($data);
+    header('Location: /ahorcado/ahorcado.php');
+    exit();
 }
 
 ?>
@@ -51,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ahorcado</title>
-    <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="../public/estilo.css">
+    <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <header>
