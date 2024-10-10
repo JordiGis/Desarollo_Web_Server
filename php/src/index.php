@@ -4,7 +4,7 @@ require_once './utils/funciones.php';
 
 const JUEGOS = [
     "ahorcado" =>  ["titulo" => "Ahorcado", "url" => "/ahorcado/ahorcado.php"],
-    "4enRaya" =>  ["titulo" => "4 en Raya", "url" => "/4enRaya/4enRaya.php"],
+    "4enRaya" =>  ["titulo" => "4 en Raya", "url" => "/4enRaya/4enRayaConf.php"],
 ];
 
 if (isset($_POST["action"]) && $_POST["action"] == "salir") {

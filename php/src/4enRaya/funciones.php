@@ -1,32 +1,19 @@
 <?php
-
+if (!isset($_SESSION["user"])) {
+    header("Location: ../auth.php");
+    exit();
+}
 
 function iniciarTabla()
 {
-    $tabla = [];
-    for ($i = 0; $i < COLUMNAS; $i++) {
-        $tabla[] = [];
-        for ($j = 0; $j < FILAS; $j++) {
-            $tabla[$i][] = "buid";
-        }
-    }
-    return $tabla;
+    return array_fill(0, COLUMNAS, array_fill(0, FILAS, "buid"));;
 }
 
 function printarTabla($tabla)
 {
     ?>
-    <form action="" method="post">
+    <form id="tablero" action="" method="post">
         <table border="1">
-            <thead>
-                <tr>
-                    <?php
-                    for ($i = 0; $i < COLUMNAS; $i++) {
-                        echo "<th><button type='submit' name='columna' value=$i>Columna $i</button></th>";
-                    }
-                    ?>
-                </tr>
-            </thead>
             <tbody>
                 <?php
                 $filas = FILAS - 1;
@@ -61,4 +48,47 @@ function cambiarJugador(&$jugador)
 {
     $jugador = ($jugador == "player1" )? "player2" : "player1";
 }
+
+
+
+function hayCuatroEnRaya($tabla, $columnas, $filas, $ficha) {
+    $direcciones = [
+        [1, 0],  // Derecha
+        [0, 1],  // Abajo
+        [1, 1],  // Diagonal descendente (derecha-abajo)
+        [1, -1]  // Diagonal ascendente (derecha-arriba)
+    ];
+
+    for ($col = 0; $col < $columnas; $col++) {
+        for ($fila = 0; $fila < $filas; $fila++) {
+            if ($tabla[$col][$fila] !== $ficha) {
+                continue;
+            }
+
+            foreach ($direcciones as $direccion) {
+                $dx = $direccion[0];
+                $dy = $direccion[1];
+
+                $espacioDisponible = true;
+                for ($i = 1; $i < 4; $i++) {
+                    $nuevoCol = $col + $i * $dx;
+                    $nuevaFila = $fila + $i * $dy;
+
+                    if ($nuevoCol < 0 || $nuevoCol >= $columnas || $nuevaFila < 0 || $nuevaFila >= $filas || $tabla[$nuevoCol][$nuevaFila] !== $ficha) {
+                        $espacioDisponible = false;
+                        break;
+                    }
+                }
+
+                if ($espacioDisponible) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
 ?>
+

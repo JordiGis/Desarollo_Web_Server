@@ -1,5 +1,9 @@
 <?php  
 session_start();
+if (!isset($_SESSION["user"])) {
+    header("Locati: ../auth.php");
+    exit();
+}
 require_once 'funciones.php';
 const PALABRA = "saludar";
 const INTENTOS_MAXIMOS = 6;
@@ -18,30 +22,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }else {
         $letra = isset($_POST['letra']) ? strtolower(htmlspecialchars($_POST['letra'])) : '';
 
-        if ($letra === '' || strlen($letra) !== 1) {
-            $mensaje[] = ["incorrect" => "Introduce una letra"];
-        } elseif (array_key_exists($letra, $data["letrasUsadas"])) {
-            $mensaje[] = ["incorrect" => "Letra ya usada"];
-        } else {
-            if(ponerLetra($letra, $data["letras"])){
+        
+        if ($data["intentos"] > 0) {
+        
+            if ($letra === '' || strlen($letra) !== 1) {
+                $mensaje[] = ["incorrect" => "Introduce una letra"];
+            } elseif (array_key_exists($letra, $data["letrasUsadas"])) {
+                $mensaje[] = ["incorrect" => "Letra ya usada"];
+            } elseif(ponerLetra($letra, $data["letras"])){
                 $data["letrasUsadas"][$letra] = "correct";
             }else{
                 $data["letrasUsadas"][$letra] = "incorrect";
                 $data["intentos"]--;
             }
-        }
 
-        if ($data["intentos"] == 0) {
+            
+            if (implode('', $data["letras"]) === PALABRA) {
+                $mensaje[] = ["correct" => "Has ganado"];
+            }
+        }
+        
+        if ($data["intentos"] <= 0) {
             $mensaje[] = ["incorrect" => "Has perdido"];
         } 
 
-        if (implode('', $data["letras"]) === PALABRA) {
-            $mensaje[] = ["correct" => "Has ganado"];
-        }
     }
     $_SESSION['ahorcado'] = json_encode($data);
-    header('Location: /ahorcado/ahorcado.php');
-    exit();
+    // header('Location: /ahorcado/ahorcado.php');
+    // exit();
 }
 
 ?>
