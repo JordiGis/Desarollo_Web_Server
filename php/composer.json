@@ -1,16 +1,16 @@
 {
-    "name": "igomis/bd",
-    "description": "Exercicis PHP BD",
+    "name": "jgf/php",
+    "description": "Ejercicios de PHP",
     "license" : "MIT",
     "autoload": {
         "psr-4": {
-            "App\\": "src/App"
+            "JGF\\": "src/App"
         }
     },
     "authors": [
         {
-            "name": "igomis",
-            "email": "igomis@cipfpbatoi.es"
+            "name": "jordi",
+            "email": "jota.gvg@gmail.com"
         }
     ],
     "require-dev": {

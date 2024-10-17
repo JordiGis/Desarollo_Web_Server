@@ -1,2 +1,5 @@
-php/vendor/*
-php/composer.lock
+/vendor
+/php/vendor/
+/.idea
+/php/composer.lock
+/git tests/_output
