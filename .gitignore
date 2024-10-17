@@ -1,3 +1,2 @@
-php/src/*
 php/vendor/*
 php/composer.lock
