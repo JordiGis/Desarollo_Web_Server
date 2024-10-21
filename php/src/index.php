@@ -1,59 +1,38 @@
-<?php
-session_start();
-require_once './utils/funciones.php';
+<?php  
+require $_SERVER['DOCUMENT_ROOT'] . '/../vendor/autoload.php';  
 
-const JUEGOS = [
-    "ahorcado" =>  ["titulo" => "Ahorcado", "url" => "/ahorcado/ahorcado.php"],
-    "4enRaya" =>  ["titulo" => "4 en Raya", "url" => "/4enRaya/4enRayaConf.php"],
-];
 
-if (isset($_POST["action"]) && $_POST["action"] == "salir") {
-    logout();
-    
-}
+use JGF\Model\Persona;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
+use Dompdf\Dompdf;
 
-if (!isset($_SESSION["user"])) {
-    header("Location: auth.php");
-}
 
+$dompdf = new Dompdf();
+$html = "<html><body>Hola, això és una prova.</body></html>";
+$dompdf->loadHtml($html);
+// $dompdf->loadHtml(file_get_contents('path/to/your/file.html'));
+$dompdf->setPaper('A4', 'portrait'); // o 'landscape'
+$dompdf->render();
+$dompdf->stream("document.pdf", array("Attachment" => false));
+// $output = $dompdf->output();
+// file_put_contents('path/to/save/document.pdf', $output);
+
+
+
+// $log = new Logger("MiLog");
+// $log->pushHandler(
+//     new RotatingFileHandler(
+//         $_SERVER["DOCUMENT_ROOT"] . '/../logs/milog.log', 
+//         0, 
+//         Logger::DEBUG
+//     )
+// );
+
+// $log->debug("Mensaje de debug");
+// $log->info("Mensaje de info");
+// $log->warning("Mensaje de warning");
+// $log->error("Mensaje de error");
+// $log->critical("Mensaje de critical");
+// $log->alert("Mensaje de alert");
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autentificación</title>
-    <link rel="stylesheet" href="./public/estilo.css">
-    <link rel="stylesheet" href="./public/modal-error/estilo.css">
-</head>
-<body>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> -->
-    <header>
-        <h1>Juegos</h1>
-    </header>
-    <main>
-        <form action="" method="post">
-            <h1>Juegos Disponibles</h1>
-            <?php  
-            
-            foreach (JUEGOS as $key => $value) {
-                ?>  
-                <a href="<?= $value['url'] ?>">
-                    <button type='button' name='juego' value='<?= $key ?>'><?= $value["titulo"] ?></button>
-                </a>
-                <?php
-            }
-            ?>
-            
-            <button type="submit" id="salir" name="action" value="salir">Salir</button>
-        </form>
-    </main>
-    <footer>
-        <p>S.A - 3 CIP FP Batoi  Jordi Gisbert Ferriz</p>
-    </footer>
-
-    
-</body>
-</html>
