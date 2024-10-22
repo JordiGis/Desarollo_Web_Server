@@ -1,0 +1,37 @@
+:root{
+  --color-fondo: #777777;
+  --color-fondo-principal: #333;
+  --color-fondo-secundario: #3c3c3c;
+  --color-letras-claras: #f5f5f5;
+  --color-letras-oscuras: #181818;
+  --color-fondo-claro: #f5f5f5;
+  --color-fondo-oscuro: #181818;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-letras-oscuras);
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-content *{
+    color: var(--color-letras-oscuras);
+    padding: 10px;
+    margin: 5px;
+  }
